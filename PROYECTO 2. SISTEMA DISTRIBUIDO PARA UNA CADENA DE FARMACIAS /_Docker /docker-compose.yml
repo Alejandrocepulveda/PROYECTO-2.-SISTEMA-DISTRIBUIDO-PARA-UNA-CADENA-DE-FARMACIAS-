@@ -1,0 +1,70 @@
+services:
+  nodo_1:
+    image: postgres:16
+    container_name: nodo_1
+    restart: always
+    environment:
+      POSTGRES_DB: sucursal_norte
+      POSTGRES_USER: admin_norte
+      POSTGRES_PASSWORD: "farm01j/s"
+    ports:
+      - "5433:5432"
+    volumes:
+      - datos_nodo_1:/var/lib/postgresql/data
+    networks:
+      - red_bd
+
+  nodo_2:
+    image: postgres:16
+    container_name: nodo_2
+    restart: always
+    environment:
+      POSTGRES_DB: sucursal_centro
+      POSTGRES_USER: admin_centro
+      POSTGRES_PASSWORD: "farm02a/o"
+    ports:
+      - "5434:5432"
+    volumes:
+      - datos_nodo_2:/var/lib/postgresql/data
+    networks:
+      - red_bd
+
+  nodo_3:
+    image: postgres:16
+    container_name: nodo_3
+    restart: always
+    environment:
+      POSTGRES_DB: sucursal_sur
+      POSTGRES_USER: admin_sur
+      POSTGRES_PASSWORD: "farm03a/i"
+    ports:
+      - "5435:5432"
+    volumes:
+      - datos_nodo_3:/var/lib/postgresql/data
+    networks:
+      - red_bd
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@farmacia.com
+      PGADMIN_DEFAULT_PASSWORD: "admin1234"
+    ports:
+      - "5050:80"
+    volumes:
+      - datos_pgadmin:/var/lib/pgadmin
+    networks:
+      - red_bd
+
+volumes:
+  datos_nodo_1:
+  datos_nodo_2:
+  datos_nodo_3:
+  datos_pgadmin:
+
+networks:
+  red_bd:
+    name: red_bd
+    driver: bridge
